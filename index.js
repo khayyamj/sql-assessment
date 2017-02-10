@@ -121,6 +121,34 @@ app.put('/api/vehicle/:vehicleId/user/:userId', function (req, res) {
       })
    })
 
+app.delete('/api/vehicle/:vehicleId/user/:userId', function (req, res) {
+   console.log('Removing Owner');
+      var ownerId = req.params.vehicleId,
+      id = req.params.userId;
+      db.delete_owner ([ownerId, id], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+app.delete('/api/vehicle/:vehicleId', function (req, res) {
+   console.log('Removing Owner');
+      var ownerId = req.params.vehicleId;
+      db.delete_vehicle ([ownerId], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+
+
+
    // end of async callback function
 });
 
