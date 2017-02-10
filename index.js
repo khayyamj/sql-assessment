@@ -39,7 +39,8 @@ app.get('/api/users', function (req, res) {
    })
 
 app.get('/api/vehicles', function (req, res) {
-   console.log('Getting vehicles');
+   console.log('Query ', req.query);
+   //  Need function to accept email and firstletters queries
       db.get_vehicles ([], function(err, results) {
          if (err) {
             console.error(err);
@@ -80,10 +81,45 @@ app.get('/api/user/:userId/vehiclecount', function (req, res) {
             console.error(err);
             return res.send(err);
          }
+         return res.send(results[0]);
+      })
+   })
+
+app.get('/api/user/:userId/vehicle', function (req, res) {
+   console.log('Vehicles for user ', req.params.userId);
+      db.user_vehicles ([req.params.userId], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
          return res.send(results);
       })
    })
 
+app.get('/api/newervehiclesbyyear', function (req, res) {
+   console.log('Newer Vehicles Requested');
+      db.new_vehicles ([], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+app.put('/api/vehicle/:vehicleId/user/:userId', function (req, res) {
+   console.log('Vehicle Transfered');
+   var ownerId = req.params.vehicleId,
+      id = req.params.userId;
+      console.log('vehicleId: ', ownerId, 'userId: ', id);
+      db.transfer ([ownerId, id], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
 
    // end of async callback function
 });
