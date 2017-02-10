@@ -8,7 +8,10 @@ CREATE TABLE IF NOT EXISTS vehicles (
    model VARCHAR(10),
    year INTEGER,
    ownerId INTEGER
-)
+);
+
+INSERT INTO vehicles
+(make, model, year, ownerId)
 
 VALUES
 ('Toyota', 'Camry', 1991, 1),
@@ -16,4 +19,6 @@ VALUES
 ('Ford', 'Focus', 2005, 1),
 ('Ford', 'Taurus', 2003, 2),
 ('VW', 'Bug', 2010, 2),
-('Mini', 'Coup', 2013, 3);
+('Mini', 'Coup', 2013, 3)
+
+RETURNING *;
