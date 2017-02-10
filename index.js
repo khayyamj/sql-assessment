@@ -48,8 +48,51 @@ app.get('/api/vehicles', function (req, res) {
          return res.send(results);
       })
    })
+
+app.post('/api/users', function (req, res) {
+   console.log('Adding user');
+      db.add_user ([req.body.firstname, req.body.lastname, req.body.email], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+app.post('/api/vehicles', function (req, res) {
+   console.log('Adding vehicles');
+   var year = parseInt(req.body.year),
+      ownerId = parseInt(req.body.ownerId);
+      db.add_vehicle ([req.body.make, req.body.model, year, ownerId], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+app.get('/api/user/:userId/vehiclecount', function (req, res) {
+   console.log('Vehicle count for user ', req.params.userId);
+      db.vehicle_count ([req.params.userId], function(err, results) {
+         if (err) {
+            console.error(err);
+            return res.send(err);
+         }
+         return res.send(results);
+      })
+   })
+
+
+   // end of async callback function
 });
 
+
+
+
+   // listen
+   // ===============================================================
 app.listen('3000', function(){
   console.log("Khayyam is a rock-star programmer! Successfully listening on : 3000")
 })
