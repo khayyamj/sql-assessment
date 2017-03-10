@@ -88,27 +88,29 @@ app.get('/api/user/:userId/vehiclecount', function (req, res) {
 app.get('/api/vehicle', function (req, res) {
    console.log('EMAIL & NAME Queries ', req.query);
    var email = req.query.email,
-      letters = req.query.userFirstStart;
-      console.log ('email' , email, 'letters' , letters)
-      if (!email){
-         db.email_vehicles ([req.query.email], function(err, results) {
+      letters = req.query.userFirstStart + '%';
+      console.log ('email' , email, 'letters' , letters);
+      if (email){
+         db.email_vehicles([email], function(err, results) {
             if (err) {
-               console.log('email checked')
+               console.log('email checked', email);
                console.error(err);
                return res.send(err);
             }
             return res.send(results[0]);
-      })} else if (!letters){
-         console.log('name string checked')
-         db.name.search ([req.query.email], function(err, results) {
+          })
+      } else if (letters){
+         console.log('name string checked', letters);
+         db.name_search([letters], function(err, results) {
             if (err) {
-               console.error(err);
+               console.error('name search error: ', err);
                return res.send(err);
             }
             return res.send(results[0]);
-      })}
-      return res.send("Query not found")
-   })
+          })
+        }
+    return res.send("Query not found")
+})
 
 app.get('/api/user/:userId/vehicle', function (req, res) {
    console.log('Vehicles for user ', req.params.userId);
